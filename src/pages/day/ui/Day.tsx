@@ -1,10 +1,13 @@
-import { Calendar } from "@/components/calendar/Calendar";
-import { Modal } from "@/components/modal/Modal";
+import DayPicker from "@/shared/ui/dayPicker";
+import Modal from "@/shared/ui/modal";
+import TimePicker from "@/shared/ui/timePicker";
 import { FC, useState } from "react";
+import { useSearchParams } from "react-router";
 
 interface Props {}
 
-export const ChoosenDay: FC<Props> = ({}) => {
+export const Day: FC<Props> = ({}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const times = [
     "00:00",
     "01:00",
@@ -34,9 +37,10 @@ export const ChoosenDay: FC<Props> = ({}) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
+      <h2>{searchParams.get("date")}</h2>
       <div className="w-full h-screen flex flex-col justify-between p-2">
         {times.map((elem) => (
-          <div className="flex items-baseline p-2 cursor-pointer gap-2" onClick={() => setIsOpen(!isOpen)}>
+          <div className="flex items-baseline p-2 cursor-pointer gap-2 hover:bg-gray-100" onClick={() => setIsOpen(!isOpen)}>
             {elem}
             <span className="border-b border-gray-300 w-full block"></span>
           </div>
@@ -50,12 +54,28 @@ export const ChoosenDay: FC<Props> = ({}) => {
               <h2>Начало события</h2>
               <div className="flex flex-row justify-between">
                 <p>Дата</p>
-                <Calendar />
+                <DayPicker />
+              </div>
+              <div className="flex flex-row justify-between">
+                <p>Время</p>
+                <TimePicker />
               </div>
             </div>
-            <div>
+            <div className="border p-2">
               <h2>Конец события</h2>
+              <div className="flex flex-row justify-between">
+                <p>Дата</p>
+                <DayPicker />
+              </div>
+              <div className="flex flex-row justify-between">
+                <p>Время</p>
+                <TimePicker />
+              </div>
             </div>
+          </div>
+          <div>
+            <button>Добавить</button>
+            <button>Отмена</button>
           </div>
         </div>
       </Modal>

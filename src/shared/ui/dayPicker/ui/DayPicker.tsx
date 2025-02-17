@@ -4,7 +4,7 @@ interface CalendarDay {
   day: number | null;
   isCurrentMonth: boolean;
 }
-export const Calendar: FC = () => {
+export const DayPicker: FC = () => {
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1);
   const [weeks, setWeeks] = useState<CalendarDay[][]>([]);
@@ -50,7 +50,7 @@ export const Calendar: FC = () => {
   return (
     <div>
       <button onClick={() => setShowCalendar(true)}>{choosenDate}</button>
-      <div className="absolute bg-white">
+      <div className="absolute bg-white z-[100]">
         <table className={`border border-collapse ${showCalendar ? "block" : "hidden"}`}>
           <thead>
             <tr>

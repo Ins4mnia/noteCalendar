@@ -24,7 +24,7 @@ export const Modal: FC<Props> = ({ children, isOpen, onClose }) => {
     <div className="fixed inset-0 bg-black/25 flex items-center justify-center" onClick={onClose}>
       <div className="bg-white rounded-lg min-w-[500px] min-h-[400px] relative p-4" onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className="absolute -right-10 top-0 bg-gray-200 rounded-md p-1 hover:bg-gray-300 transition-colors">
-          <X className="h-6 w-6 text-black" />
+          <X className="text-black" size={24} />
         </button>
         {children}
       </div>

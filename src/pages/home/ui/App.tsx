@@ -1,9 +1,9 @@
-import { BigCalendar } from "./components/bigCalendar/BigCalendar";
+import Calendar from "@/widgets/Calendar";
 
 function App() {
   return (
     <div className="w-full h-screen">
-      <BigCalendar />
+      <Calendar />
     </div>
   );
 }
