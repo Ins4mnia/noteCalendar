@@ -31,7 +31,7 @@ export const Modal: FC<Props> = ({ children, isOpen, onClose }) => {
 			>
 				<button
 					onClick={onClose}
-					className='absolute -right-10 top-0 bg-gray-200 rounded-md p-1 hover:bg-gray-300 transition-colors'
+					className='absolute -right-10 top-0 bg-gray-100 rounded-md p-1 hover:bg-gray-200 transition-colors'
 				>
 					<X className='text-black' size={24} />
 				</button>
