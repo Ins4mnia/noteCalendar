@@ -1,13 +1,17 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { monthNames, monthShortNames, weekDays } from '../model/constants'
-import type { ICalendarDay } from '../model/types'
+import type { ICalendarDay, Props } from '../model/types'
 import {
 	generateCalendar,
 	controlYearInput,
 	contolMonthInput,
 } from '../model/utils'
 
-export const DayPicker: FC = () => {
+export const DayPicker: FC<Props> = ({
+	noteInfo,
+	handleAddNoteParam,
+	param,
+}) => {
 	const dayPickerRef = useRef<HTMLDivElement>(null)
 
 	const [selectedYear, setSelectedYear] = useState<number>(
@@ -24,9 +28,19 @@ export const DayPicker: FC = () => {
 
 	const [showCalendar, setShowCalendar] = useState(false)
 
-	const handleDayClick = (day: number | null) => {
+	const handleDayClick = (
+		day: number | null,
+		setFn: (data: string) => void,
+		handleAddNoteParam: Props['handleAddNoteParam'],
+		param: string
+	) => {
 		if (day === null) return
-		setChoosenDate(`${day} ${monthShortNames[selectedMonth]} ${selectedYear}`)
+		setFn(`${day} ${monthShortNames[selectedMonth]} ${selectedYear}`)
+		handleAddNoteParam(
+			noteInfo,
+			param,
+			`${day}.${selectedMonth + 1}.${selectedYear}`
+		)
 		setShowCalendar(!showCalendar)
 	}
 
@@ -98,7 +112,14 @@ export const DayPicker: FC = () => {
 												: 'border hover:bg-gray-200 cursor-pointer text-center p-2'
 										}
 										key={dayIndex}
-										onClick={() => handleDayClick(day.day)}
+										onClick={() =>
+											handleDayClick(
+												day.day,
+												setChoosenDate,
+												handleAddNoteParam,
+												param
+											)
+										}
 									>
 										{day.day}
 									</td>

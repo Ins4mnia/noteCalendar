@@ -1,8 +1,3 @@
-interface ICalendarDay {
-	day: number | null
-	isCurrentMonth: boolean
-}
-
 interface INoteData {
 	title: string
 	timeStart: string
@@ -10,9 +5,11 @@ interface INoteData {
 	dateStart: string
 	dateEnd: string
 }
+
 interface Props {
+	noteInfo: INoteData
 	handleAddNoteParam: (noteInfo: INoteData, param: string, info: string) => void
 	param: string
-	noteInfo: INoteData
 }
-export type { ICalendarDay, Props }
+
+export type { Props }
