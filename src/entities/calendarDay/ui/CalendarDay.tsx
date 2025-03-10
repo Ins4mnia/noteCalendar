@@ -1,12 +1,7 @@
 import { Modal } from '@/shared/ui/modal/ui/Modal'
 import { FC, useState } from 'react'
 import { Link } from 'react-router'
-
-interface Props {
-	year: number
-	month: number
-	day: number | null
-}
+import type { Props } from '../model/type'
 
 export const CalendarDay: FC<Props> = ({ year, month, day }) => {
 	const [isOpen, setIsOpen] = useState(false)
@@ -28,7 +23,10 @@ export const CalendarDay: FC<Props> = ({ year, month, day }) => {
 						<div className='bg-gray-100 rounded-md p-2'>2</div>
 						<div className='bg-gray-100 rounded-md p-2'>3</div>
 					</div>
-					<Link className='text-center' to={`/day?date=${day}${month}${year}`}>
+					<Link
+						className='text-center'
+						to={`/day?date=${day}.${month}.${year}`}
+					>
 						Добавить запись
 					</Link>
 				</div>

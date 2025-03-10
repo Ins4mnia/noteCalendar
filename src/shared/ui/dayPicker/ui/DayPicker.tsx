@@ -1,19 +1,11 @@
 import { FC, useEffect, useRef, useState } from 'react'
-import { monthNames, monthShortNames, weekDays } from '../model/constants'
-import type { ICalendarDay, Props } from '../model/types'
-import {
-	generateCalendar,
-	controlYearInput,
-	contolMonthInput,
-} from '../model/utils'
+import { monthNames, monthShortNames, weekDays } from '@/app/contants'
+import type { Props } from '../model/types'
+import { generateCalendar } from '@/app/utils'
+import type { ICalendarDay } from '@/app/utils'
+import { controlYearInput, contolMonthInput } from '../model/utils'
 
-export const DayPicker: FC<Props> = ({
-	noteInfo,
-	handleAddNoteParam,
-	param,
-}) => {
-	const dayPickerRef = useRef<HTMLDivElement>(null)
-
+export const DayPicker: FC<Props> = ({ onDateChange }) => {
 	const [selectedYear, setSelectedYear] = useState<number>(
 		new Date().getFullYear()
 	)
@@ -25,22 +17,18 @@ export const DayPicker: FC<Props> = ({
 	const [choosenDate, setChoosenDate] = useState<string>(
 		`${new Date().getDate()} ${monthShortNames[selectedMonth]} ${selectedYear}`
 	)
+	const [showCalendar, setShowCalendar] = useState<boolean>(false)
 
-	const [showCalendar, setShowCalendar] = useState(false)
+	const dayPickerRef = useRef<HTMLDivElement>(null)
 
 	const handleDayClick = (
 		day: number | null,
 		setFn: (data: string) => void,
-		handleAddNoteParam: Props['handleAddNoteParam'],
-		param: string
+		onDateChange: (date: string) => void
 	) => {
 		if (day === null) return
 		setFn(`${day} ${monthShortNames[selectedMonth]} ${selectedYear}`)
-		handleAddNoteParam(
-			noteInfo,
-			param,
-			`${day}.${selectedMonth + 1}.${selectedYear}`
-		)
+		onDateChange(`${day}.${selectedMonth + 1}.${selectedYear}`)
 		setShowCalendar(!showCalendar)
 	}
 
@@ -60,6 +48,7 @@ export const DayPicker: FC<Props> = ({
 			document.removeEventListener('mousedown', handleClickOutside)
 		}
 	}, [])
+
 	useEffect(() => {
 		setWeeks(generateCalendar(selectedYear, selectedMonth))
 	}, [selectedYear, selectedMonth])
@@ -113,12 +102,7 @@ export const DayPicker: FC<Props> = ({
 										}
 										key={dayIndex}
 										onClick={() =>
-											handleDayClick(
-												day.day,
-												setChoosenDate,
-												handleAddNoteParam,
-												param
-											)
+											handleDayClick(day.day, setChoosenDate, onDateChange)
 										}
 									>
 										{day.day}

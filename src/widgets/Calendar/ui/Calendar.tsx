@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react'
 import CalendarDay from '@/entities/calendarDay'
-import { generateCalendar } from '@/shared/generateCalendar/GenerateCalendar'
-import { ICalendarDay } from '../model/type'
-import { weekDays } from '../model/constats'
+import { generateCalendar } from '@/app/utils'
+import type { ICalendarDay } from '@/app/utils'
+import { weekDays } from '@/app/contants'
 
 export const Calendar: FC = () => {
 	const [weeks, setWeeks] = useState<ICalendarDay[][]>([])

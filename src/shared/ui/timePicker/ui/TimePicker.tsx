@@ -1,18 +1,12 @@
 import { FC, useState } from 'react'
 import type { Props } from '../model/type'
 
-export const TimePicker: FC<Props> = ({
-	noteInfo,
-	handleAddNoteParam,
-	param,
-}) => {
+export const TimePicker: FC<Props> = ({ onTimeChange }) => {
 	const [time, setTime] = useState<string>('00:00')
 
 	const handleInput = (
 		e: React.ChangeEvent<HTMLInputElement>,
-		setFn: (data: string) => void,
-		handleAddNoteParam: Props['handleAddNoteParam'],
-		param: string
+		onTimeChange: (time: string) => void
 	) => {
 		const value = e.target.value.trim().replace(/[^0-9:]/g, '')
 		const cursorPosition = e.target.selectionStart || 0
@@ -30,30 +24,24 @@ export const TimePicker: FC<Props> = ({
 			formattedValue = formattedValue.slice(0, 5)
 		}
 
-		setFn(formattedValue)
-		handleAddNoteParam(noteInfo, param, formattedValue)
+		setTime(formattedValue)
+		onTimeChange(formattedValue)
 	}
 
-	const handleBlur = (
-		e: React.ChangeEvent<HTMLInputElement>,
-		setFn: (data: string) => void
-	) => {
-		if (e.target.value === '') return setFn('00:00')
+	const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.value === '') return setTime('00:00')
 	}
-	const handleFocus = (
-		e: React.ChangeEvent<HTMLInputElement>,
-		setFn: (data: string) => void
-	) => {
-		if (e.target.value === '00:00') return setFn('')
+	const handleFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.value === '00:00') return setTime('')
 	}
 	return (
 		<input
 			type='text'
 			value={time}
-			onBlur={e => handleBlur(e, setTime)}
-			onFocus={e => handleFocus(e, setTime)}
-			onChange={e => handleInput(e, setTime, handleAddNoteParam, param)}
-			className='outline-none text-right'
+			onBlur={e => handleBlur(e)}
+			onFocus={e => handleFocus(e)}
+			onChange={e => handleInput(e, onTimeChange)}
+			className='outline-none text-center'
 		/>
 	)
 }

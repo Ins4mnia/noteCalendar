@@ -1,10 +1,9 @@
 import { useNoteStore } from '@/app/store/useNoteStore/useNoteStore'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import type { Props } from '../model/type'
 
-const AddNoteToStore: FC<Props> = ({ children, id, data, ...rest }) => {
+const AddNoteToStore: FC<Props> = memo(({ children, id, data, ...rest }) => {
 	const addNote = useNoteStore(state => state.addNote)
-
 	const handleClick = () => {
 		addNote(id, data)
 	}
@@ -13,6 +12,6 @@ const AddNoteToStore: FC<Props> = ({ children, id, data, ...rest }) => {
 			{children}
 		</button>
 	)
-}
+})
 
 export default AddNoteToStore

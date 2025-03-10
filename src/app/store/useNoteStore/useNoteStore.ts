@@ -1,37 +1,31 @@
 import { create } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
+import type { INoteStore } from './type'
 
-interface INote {
-	[id: string]: INoteData | null
-}
-interface INoteData {
-	title: string
-	timeStart: string
-	timeEnd: string
-	dateStart: string
-	dateEnd: string
-}
+const useNoteStore = create<INoteStore>()(
+	persist(
+		(set, get) => ({
+			notes: {},
+			addNote: (dayId, data) => {
+				const { notes } = get()
+				const currentNotes = notes[dayId] || []
+				set({ notes: { ...notes, [dayId]: [data, ...currentNotes] } })
+			},
 
-interface INoteStore {
-	notes: INote
-	addNote: (id: string, data: INoteData) => void
-	deleteNote: (id: string) => void
-	updateNote: (id: string, data: INoteData) => void
-}
-
-const useNoteStore = create<INoteStore>()((set, get) => ({
-	notes: {},
-	addNote: (id, data) => {
-		const { notes } = get()
-		set({ notes: { ...notes, [id]: data } })
-	},
-	deleteNote: id => {
-		const { notes } = get()
-		set({ notes: { ...notes, [id]: null } })
-	},
-	updateNote: (id, data) => {
-		const { notes } = get()
-		set({ notes: { ...notes, [id]: data } })
-	},
-}))
+			deleteNote: (dayId, noteId) => {
+				const { notes } = get()
+				const userNotes = notes[dayId]
+				if (userNotes) {
+					const updatedNotes = userNotes.filter(note => note.noteId !== noteId)
+					set({ notes: { ...notes, [dayId]: updatedNotes } })
+				}
+			},
+		}),
+		{
+			name: 'note-storage',
+			storage: createJSONStorage(() => localStorage),
+		}
+	)
+)
 
 export { useNoteStore }

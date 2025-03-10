@@ -1,12 +1,7 @@
-import { FC, ReactNode, useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
-
-interface Props {
-	children: ReactNode
-	isOpen: boolean
-	onClose: () => void
-}
+import type { Props } from '../model/type'
 
 export const Modal: FC<Props> = ({ children, isOpen, onClose }) => {
 	useEffect(() => {
